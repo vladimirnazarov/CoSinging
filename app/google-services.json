@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "795523669003",
+    "project_id": "cosinging-46b5c",
+    "storage_bucket": "cosinging-46b5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795523669003:android:a76cb8deb0f9feb016bb0e",
+        "android_client_info": {
+          "package_name": "com.tms.android.cosinging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795523669003-sg3c7m65gc36r27li7bfaj0unaaqkutk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tms.android.cosinging",
+            "certificate_hash": "fae783ef719ef351b463cceb3b47ff6b57e6ba6a"
+          }
+        },
+        {
+          "client_id": "795523669003-r7oakj4cd2ps34nibtvh823j7t11ehrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9JAWQNrdEvAmcS5IQvRDR5is5PJFKJ9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795523669003-r7oakj4cd2ps34nibtvh823j7t11ehrr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
