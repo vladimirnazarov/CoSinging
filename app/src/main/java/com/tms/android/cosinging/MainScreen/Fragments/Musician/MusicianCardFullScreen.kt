@@ -9,13 +9,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.tms.android.cosinging.R
+import org.w3c.dom.Text
 
 class MusicianCardFullScreen: Fragment() {
 
     private lateinit var musicianAvatar: ImageView
     private lateinit var musicianFavourite: ImageView
     private lateinit var musicianName: TextView
+    private lateinit var musicianProfession: TextView
     private lateinit var musicianNickname: TextView
     private lateinit var musicianPostbox: TextView
     private lateinit var musicianPhoneNumber: TextView
@@ -35,6 +39,15 @@ class MusicianCardFullScreen: Fragment() {
 
         findElements(view)
 
+        musicianAvatar.load("https://i.pinimg.com/originals/3f/e9/46/3fe9467eccd40719db3707ceafaa2725.jpg"){
+            crossfade(true)
+            transformations(RoundedCornersTransformation(32f))
+        }
+        musicianName.text = "Егор Плащинский"
+        musicianProfession.text = "Гитарист"
+        musicianNickname.text = "mr.saintless"
+        musicianPostbox.text = "mrsaintless@gmail.com"
+
         musicianChatButton.setOnClickListener {
             Toast.makeText(context, "Will be soon!", Toast.LENGTH_SHORT).show()
         }
@@ -53,6 +66,7 @@ class MusicianCardFullScreen: Fragment() {
         musicianNickname = view.findViewById(R.id.musician_profile_nickname) as TextView
         musicianPostbox = view.findViewById(R.id.musician_profile_postbox) as TextView
         musicianPhoneNumber = view.findViewById(R.id.musician_profile_number) as TextView
+        musicianProfession = view.findViewById(R.id.musician_profile_profession) as TextView
         musicianInformation = view.findViewById(R.id.musician_profile_information) as TextView
         musicianChatButton = view.findViewById(R.id.musician_profile_chat) as Button
     }

@@ -70,9 +70,8 @@
         android:id="@+id/musician_profile_avatar"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/musician_profile_toolbar"
         tools:srcCompat="@tools:sample/avatars" />
@@ -81,13 +80,12 @@
         android:id="@+id/musician_profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:text="Vladimir Nazarov"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/musician_profile_avatar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/musician_profile_toolbar" />
 
     <TextView
@@ -97,8 +95,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="tooldiamond2014@gmail.com"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/musician_profile_avatar"
         app:layout_constraintTop_toBottomOf="@+id/musician_profile_nickname" />
 
@@ -107,12 +103,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="/@vodka kun"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/musician_profile_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/musician_profile_name" />
+        app:layout_constraintTop_toBottomOf="@+id/musician_profile_profession" />
 
     <TextView
         android:id="@+id/musician_profile_number"
@@ -121,8 +115,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="+375 29 373 07 41"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/musician_profile_avatar"
         app:layout_constraintTop_toBottomOf="@+id/musician_profile_postbox" />
 
@@ -136,6 +128,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/musician_profile_information_background" />
+
+    <TextView
+        android:id="@+id/musician_profile_profession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/musician_profile_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/musician_profile_toolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
