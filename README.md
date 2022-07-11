@@ -9,3 +9,4 @@
 ![Main User Account Edit](https://user-images.githubusercontent.com/79588099/178269099-7a439084-e0c6-4f6b-b6ca-5a5fd2cee017.png)
 ![musician profile](https://user-images.githubusercontent.com/79588099/178269103-b4714945-b247-4969-8e10-8888211cf2ea.png)
 ![RegisterFragmentExc2](https://user-images.githubusercontent.com/79588099/178269106-e53b6f9f-51ec-489d-ada0-15c266189755.png)
+![FireBase Authorized User](https://user-images.githubusercontent.com/79588099/178269478-0e36afe8-03ba-46e0-be99-c7c77045304f.png)
