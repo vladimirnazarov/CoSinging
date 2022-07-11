@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/screen_background_blur"
-    tools:context=".login.LogOrRegActivity">
+    tools:context=".Login.LogOrRegActivity">
 
     <ImageView
         android:id="@+id/activity_login_top_background"

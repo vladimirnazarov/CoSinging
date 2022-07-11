@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/listOfMusicians"
-        android:name="com.tms.android.cosinging.mainScreen.Fragments.Musician.ListOfMusicians"
+        android:name="com.tms.android.cosinging.MainScreen.Fragments.Musician.ListOfMusicians"
         android:label="ListOfMusicians" >
         <action
             android:id="@+id/action_listOfMusicians_to_userProfile"
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/userProfile"
-        android:name="com.tms.android.cosinging.mainScreen.Fragments.User.UserProfile"
+        android:name="com.tms.android.cosinging.MainScreen.Fragments.User.UserProfile"
         android:label="UserProfile" >
         <action
             android:id="@+id/action_userProfile_to_listOfMusicians"
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/userEditProfile"
-        android:name="com.tms.android.cosinging.mainScreen.Fragments.User.UserEditProfile"
+        android:name="com.tms.android.cosinging.MainScreen.Fragments.User.UserEditProfile"
         android:label="UserEditProfile" >
         <action
             android:id="@+id/action_userEditProfile_to_userProfile"
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/musicianCardFullScreen"
-        android:name="com.tms.android.cosinging.mainScreen.Fragments.Musician.MusicianCardFullScreen"
+        android:name="com.tms.android.cosinging.MainScreen.Fragments.Musician.MusicianCardFullScreen"
         android:label="MusicianCardFullScreen" >
         <action
             android:id="@+id/action_musicianCardFullScreen_to_listOfMusicians"

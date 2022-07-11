@@ -1,8 +1,6 @@
-package com.tms.android.cosinging.login.fragments
+package com.tms.android.cosinging.Login.Fragments
 
-import android.graphics.Color
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import com.tms.android.cosinging.R
-import com.tms.android.cosinging.login.LogOrRegActivity
+import com.tms.android.cosinging.Login.LogOrRegActivity
 
 class LoginFragment: Fragment() {
 
@@ -42,7 +39,6 @@ class LoginFragment: Fragment() {
         }
 
         forgetPassword.isClickable = true
-        forgetPassword.setTextColor(Color.parseColor("#344feb"))
 
         forgetPassword.setOnClickListener {
             Toast.makeText(context, "Will be soon!", Toast.LENGTH_SHORT).show()

@@ -1,22 +1,29 @@
-package com.tms.android.cosinging.login
+package com.tms.android.cosinging.Login
 
-import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Button
 import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.tms.android.cosinging.R
-import com.tms.android.cosinging.login.fragments.LoginFragment
-import com.tms.android.cosinging.login.fragments.RegisterFragment
-import com.tms.android.cosinging.mainScreen.MainActivity
+import com.tms.android.cosinging.Login.Fragments.LoginFragment
+import com.tms.android.cosinging.Login.Fragments.RegisterFragment
+import com.tms.android.cosinging.MainScreen.MainActivity
 
 class LogOrRegActivity : AppCompatActivity() {
 
     private lateinit var registerButton: Button
+
+    var fireDatabase = FirebaseDatabase.getInstance()
+    var fireAuth = FirebaseAuth.getInstance()
+    val fireStore = FirebaseFirestore.getInstance()
+    var users = fireDatabase.getReference("User")
 
     override fun onBackPressed() {
         Navigation.findNavController(this, R.id.login_activity_fragments_frame).navigate(R.id.action_registerFragment_to_loginFragment)
@@ -46,8 +53,6 @@ class LogOrRegActivity : AppCompatActivity() {
         registerButton.setOnClickListener {
            navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
-
-
     }
 
     fun showButton(){
@@ -64,4 +69,8 @@ class LogOrRegActivity : AppCompatActivity() {
         val intent = MainActivity.newIntent(this@LogOrRegActivity)
         startActivity(intent)
     }
+
+//    fun getFireDatabase(): FirebaseDatabase = fireDatabase
+//    fun getFireAuth(): FirebaseAuth = fireAuth
+//    fun getUsers(): DatabaseReference = users
 }

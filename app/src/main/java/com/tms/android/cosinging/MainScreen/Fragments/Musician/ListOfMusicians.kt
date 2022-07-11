@@ -1,4 +1,4 @@
-package com.tms.android.cosinging.mainScreen.Fragments.Musician
+package com.tms.android.cosinging.MainScreen.Fragments.Musician
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -17,9 +15,8 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.tms.android.cosinging.R
-import com.tms.android.cosinging.mainScreen.Data.Musician
-import com.tms.android.cosinging.mainScreen.ViewModels.UserViewModel
-import kotlin.system.exitProcess
+import com.tms.android.cosinging.MainScreen.Data.Musician
+import com.tms.android.cosinging.MainScreen.ViewModels.UserViewModel
 
 class ListOfMusicians: Fragment() {
 

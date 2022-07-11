@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.tms.android.cosinging.login.fragments.LoginFragment"
+        android:name="com.tms.android.cosinging.Login.Fragments.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.tms.android.cosinging.login.fragments.RegisterFragment"
+        android:name="com.tms.android.cosinging.Login.Fragments.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"

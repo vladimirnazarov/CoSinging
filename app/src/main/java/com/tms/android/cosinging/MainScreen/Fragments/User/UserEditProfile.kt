@@ -1,4 +1,4 @@
-package com.tms.android.cosinging.mainScreen.Fragments.User
+package com.tms.android.cosinging.MainScreen.Fragments.User
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,12 +12,13 @@ import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.tms.android.cosinging.R
-import com.tms.android.cosinging.mainScreen.MainActivity
+import com.tms.android.cosinging.MainScreen.MainActivity
 
 class UserEditProfile: Fragment() {
 
     private lateinit var editImage: ImageView
     private lateinit var editName: EditText
+    private lateinit var editProfession: EditText
     private lateinit var editNickname: EditText
     private lateinit var editPhoneNumber: EditText
     private lateinit var editUserInformation: EditText
@@ -60,6 +61,7 @@ class UserEditProfile: Fragment() {
     private fun findElements(view: View){
         editImage = view.findViewById(R.id.edit_profile_avatar) as ImageView
         editName = view.findViewById(R.id.edit_profile_name) as EditText
+        editProfession = view.findViewById(R.id.edit_profile_profession) as EditText
         editNickname = view.findViewById(R.id.edit_profile_nickname) as EditText
         editPhoneNumber = view.findViewById(R.id.edit_profile_phone_number) as EditText
         editUserInformation = view.findViewById(R.id.edit_profile_about_me) as EditText

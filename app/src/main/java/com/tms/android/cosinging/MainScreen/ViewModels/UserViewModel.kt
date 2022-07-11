@@ -1,7 +1,7 @@
-package com.tms.android.cosinging.mainScreen.ViewModels
+package com.tms.android.cosinging.MainScreen.ViewModels
 
 import androidx.lifecycle.ViewModel
-import com.tms.android.cosinging.mainScreen.Data.Musician
+import com.tms.android.cosinging.MainScreen.Data.Musician
 
 class UserViewModel: ViewModel() {
 
@@ -13,7 +13,7 @@ class UserViewModel: ViewModel() {
 
     init {
         for(index in 0..100){
-            val musician = Musician(id = index)
+            val musician = Musician(id = index.toString())
             musician.name = this.name
             musician.profession = this.profession
             musician.photoLink = linkImg

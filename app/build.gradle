@@ -48,6 +48,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-auth:21.0.6'
     implementation 'com.google.firebase:firebase-database:20.0.5'
+    implementation 'com.google.firebase:firebase-firestore:24.2.0'
     implementation 'com.android.support:design:28.+'
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 

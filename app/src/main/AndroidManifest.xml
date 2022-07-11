@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoSinging">
         <activity
-            android:name=".login.LogOrRegActivity"
+            android:name=".Login.LogOrRegActivity"
             android:noHistory="true"
             android:exported="true">
             <intent-filter>
@@ -23,7 +23,7 @@
 
         </activity>
         <activity
-            android:name=".mainScreen.MainActivity"
+            android:name=".MainScreen.MainActivity"
             android:exported="false">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->

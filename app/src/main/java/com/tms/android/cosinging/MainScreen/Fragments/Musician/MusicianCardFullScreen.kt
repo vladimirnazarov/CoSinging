@@ -1,4 +1,4 @@
-package com.tms.android.cosinging.mainScreen.Fragments.Musician
+package com.tms.android.cosinging.MainScreen.Fragments.Musician
 
 import android.os.Bundle
 import android.view.LayoutInflater

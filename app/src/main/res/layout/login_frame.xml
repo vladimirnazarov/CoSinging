@@ -58,6 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forget_login_or_password"
+        android:textColor="#dedede"
         android:layout_marginTop="100dp"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintBottom_toBottomOf="parent"

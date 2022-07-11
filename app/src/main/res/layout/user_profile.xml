@@ -45,7 +45,7 @@
         android:id="@+id/user_information_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:text="@string/information"
         android:textColor="@color/black"
         android:textSize="14sp"
@@ -108,7 +108,7 @@
         android:id="@+id/user_avatar"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,26 +117,23 @@
 
     <TextView
         android:id="@+id/user_name"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:text="Vladimir Nazarov"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_profile_toolbar" />
 
     <TextView
         android:id="@+id/user_postbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:text="tooldiamond2014@gmail.com"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toBottomOf="@+id/user_nickname" />
 
@@ -144,24 +141,30 @@
         android:id="@+id/user_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
         android:text="/@vodka kun"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/user_name" />
+        app:layout_constraintTop_toBottomOf="@+id/user_profession" />
 
     <TextView
         android:id="@+id/user_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:text="+375 29 373 07 41"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toBottomOf="@+id/user_postbox" />
+
+    <TextView
+        android:id="@+id/user_profession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:text="Guitarist"
+        app:layout_constraintStart_toEndOf="@+id/user_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.tms.android.cosinging.mainScreen.Fragments.User
+package com.tms.android.cosinging.MainScreen.Fragments.User
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import coil.load
-import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.tms.android.cosinging.R
 
@@ -17,6 +16,7 @@ class UserProfile: Fragment() {
 
     private lateinit var nickName: TextView
     private lateinit var name: TextView
+    private lateinit var profession: TextView
     private lateinit var postBox: TextView
     private lateinit var phoneNumber: TextView
     private lateinit var information: TextView
@@ -57,6 +57,7 @@ class UserProfile: Fragment() {
 
     private fun findElements(view: View){
         name = view.findViewById(R.id.user_name) as TextView
+        profession = view.findViewById(R.id.user_profession) as TextView
         nickName = view.findViewById(R.id.user_nickname) as TextView
         postBox = view.findViewById(R.id.user_postbox) as TextView
         phoneNumber = view.findViewById(R.id.user_number) as TextView
