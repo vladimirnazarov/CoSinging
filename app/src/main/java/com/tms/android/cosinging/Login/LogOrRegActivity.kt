@@ -25,8 +25,16 @@ class LogOrRegActivity : AppCompatActivity() {
     val fireStore = FirebaseFirestore.getInstance()
     var users = fireDatabase.getReference("User")
 
+    /**
+     * Решить ошибку
+     * При возврате назад приложение завершается с ошибкой
+     **/
     override fun onBackPressed() {
-        Navigation.findNavController(this, R.id.login_activity_fragments_frame).navigate(R.id.action_registerFragment_to_loginFragment)
+//        if(){
+            Navigation.findNavController(this, R.id.login_activity_fragments_frame).navigate(R.id.action_registerFragment_to_loginFragment)
+//        } else {
+
+//        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +43,6 @@ class LogOrRegActivity : AppCompatActivity() {
 
         val currentFragment = supportFragmentManager.findFragmentById(R.id.login_activity_fragments_frame)
         val navController = Navigation.findNavController(this, R.id.login_activity_fragments_frame)
-
 
         val loginFragment = LoginFragment.newInstance()
         val registerFragment = RegisterFragment.newInstance()
@@ -69,8 +76,4 @@ class LogOrRegActivity : AppCompatActivity() {
         val intent = MainActivity.newIntent(this@LogOrRegActivity)
         startActivity(intent)
     }
-
-//    fun getFireDatabase(): FirebaseDatabase = fireDatabase
-//    fun getFireAuth(): FirebaseAuth = fireAuth
-//    fun getUsers(): DatabaseReference = users
 }

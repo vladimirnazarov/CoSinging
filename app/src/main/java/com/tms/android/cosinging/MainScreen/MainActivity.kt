@@ -12,6 +12,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
+    /**
+     * В манифесте стоит noHistory
+     * Поэтому Main Activity становится главной
+     */
+
     companion object{
         fun newIntent(packageContext: Context): Intent {
             return Intent(packageContext, MainActivity::class.java)

@@ -49,13 +49,14 @@ class RegisterFragment: Fragment() {
         val fireAuth = (activity as LogOrRegActivity?)!!.fireAuth
         val fireStore = (activity as LogOrRegActivity?)!!.fireStore
         val users = (activity as LogOrRegActivity?)!!.users
-        val regex = Regex("[a-zA-Z0-9]*@[a-zA-Z]*\\.[a-zA-Z]*")
+        val regex = Regex("[a-zA-Z0-9.]*@[a-zA-Z]*\\.[a-zA-Z]*")
 
         val musicianAccountBase = fireStore.collection("MusicianAccount")
         var emailSimilar = ""
 
         registerButton.setOnClickListener{
-            musicianAccountBase.whereEqualTo("email", enterEmail.text.toString()).get().addOnSuccessListener {it.forEach{
+            musicianAccountBase.whereEqualTo("email", enterEmail.text.toString()).get().addOnSuccessListener { it ->
+                it.forEach{
                 emailSimilar = it.get("email") as String
             }
                 if (TextUtils.isEmpty(enterEmail.text.toString())){
@@ -97,8 +98,13 @@ class RegisterFragment: Fragment() {
 
                         fireStore.collection("MusicianAccount").document(musician.nickname).set(musicianHash)
 
-                        Toast.makeText(context, "Successfully registered!", Toast.LENGTH_SHORT).show()
-                        (activity as LogOrRegActivity?)!!.nextActivity()
+                        fireAuth.currentUser?.let { it1 -> users.child(it1.uid) }?.setValue(musician)
+                            ?.addOnSuccessListener {
+                                Toast.makeText(context, "Successfully registered!", Toast.LENGTH_SHORT).show()
+                                (activity as LogOrRegActivity?)!!.nextActivity()
+                            }?.addOnFailureListener {
+                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                            }
                     }
                 }
             }
