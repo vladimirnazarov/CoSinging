@@ -2,6 +2,7 @@ package com.tms.android.cosinging.Login.Fragments
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.tms.android.cosinging.R
 import com.tms.android.cosinging.Login.LogOrRegActivity
 import com.tms.android.cosinging.MainScreen.Data.Musician
+import com.tms.android.cosinging.Utils.AppValueEventListener
 
 class RegisterFragment: Fragment() {
 
@@ -101,7 +103,11 @@ class RegisterFragment: Fragment() {
                         fireAuth.currentUser?.let { it1 -> users.child(it1.uid) }?.setValue(musician)
                             ?.addOnSuccessListener {
                                 Toast.makeText(context, "Successfully registered!", Toast.LENGTH_SHORT).show()
-                                (activity as LogOrRegActivity?)!!.nextActivity()
+                                (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).addValueEventListener(
+                                    AppValueEventListener{
+                                    (activity as LogOrRegActivity?)!!.userHashMap = it.value as HashMap<String, String>
+                                    (activity as LogOrRegActivity?)!!.nextActivity()
+                                })
                             }?.addOnFailureListener {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                             }

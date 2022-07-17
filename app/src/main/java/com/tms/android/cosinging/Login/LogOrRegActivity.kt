@@ -20,6 +20,8 @@ class LogOrRegActivity : AppCompatActivity() {
 
     private lateinit var registerButton: Button
 
+    lateinit var userHashMap: HashMap<String, String>
+
     var fireDatabase = FirebaseDatabase.getInstance()
     var fireAuth = FirebaseAuth.getInstance()
     val fireStore = FirebaseFirestore.getInstance()
@@ -74,6 +76,7 @@ class LogOrRegActivity : AppCompatActivity() {
 
     fun nextActivity(){
         val intent = MainActivity.newIntent(this@LogOrRegActivity)
+        intent.putExtra("CURRENT USER DATA", userHashMap)
         startActivity(intent)
     }
 }

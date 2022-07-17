@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.get
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,13 +19,20 @@ import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.tms.android.cosinging.R
 import com.tms.android.cosinging.MainScreen.Data.Musician
+import com.tms.android.cosinging.MainScreen.MainActivity
+import com.tms.android.cosinging.MainScreen.ViewModels.MusiciansViewModel
 import com.tms.android.cosinging.MainScreen.ViewModels.UserViewModel
 
 class ListOfMusicians: Fragment() {
 
-    private val musicianListViewModel: UserViewModel by lazy {
+    private val musicianListViewModel: MusiciansViewModel by lazy {
+        ViewModelProviders.of(this).get(MusiciansViewModel::class.java)
+    }
+    private val userViewModel: UserViewModel by lazy {
         ViewModelProviders.of(this).get(UserViewModel::class.java)
     }
+
+    private lateinit var userHashMap: HashMap<String, String>
 
     private lateinit var musicianListRecyclerView: RecyclerView
     private var adapter: ListOfMusiciansAdapter? = null
@@ -44,10 +54,6 @@ class ListOfMusicians: Fragment() {
         musicianListRecyclerView.layoutManager = LinearLayoutManager(context)
 
         userAvatar = view.findViewById(R.id.main_screen_user_avatar) as ImageView
-        userAvatar.load("https://www.buro247.ua/images/2017/09/neytiri-avatar-5824.jpg"){
-            crossfade(true)
-            transformations(CircleCropTransformation())
-        }
         userAvatar.setOnClickListener{
             Navigation.findNavController(requireView()).navigate(R.id.action_listOfMusicians_to_userProfile)
         }
@@ -55,6 +61,17 @@ class ListOfMusicians: Fragment() {
         updateUI()
 
         return view
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        userHashMap = (activity as MainActivity?)!!.userHashMap
+        userAvatar.load(userHashMap["photoLink"]){
+            crossfade(true)
+            transformations(CircleCropTransformation())
+        }
     }
 
     private inner class ListOfMusiciansHolder(view: View): RecyclerView.ViewHolder(view){

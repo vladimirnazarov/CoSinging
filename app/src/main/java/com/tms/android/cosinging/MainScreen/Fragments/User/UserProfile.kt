@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.tms.android.cosinging.MainScreen.MainActivity
+import com.tms.android.cosinging.MainScreen.ViewModels.UserViewModel
 import com.tms.android.cosinging.R
 
 class UserProfile: Fragment() {
@@ -20,11 +25,18 @@ class UserProfile: Fragment() {
     private lateinit var postBox: TextView
     private lateinit var phoneNumber: TextView
     private lateinit var information: TextView
+
     private lateinit var editProfile: TextView
     private lateinit var settings: TextView
     private lateinit var deleteProfile: TextView
     private lateinit var exitButton: TextView
+
     private lateinit var avatar: ImageView
+    private lateinit var userHashMap: HashMap<String, String>
+
+    private val userViewModel: UserViewModel by lazy {
+        ViewModelProviders.of(this).get(UserViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +51,17 @@ class UserProfile: Fragment() {
 
         findElements(view)
 
-        avatar.load("https://www.buro247.ua/images/2017/09/neytiri-avatar-5824.jpg"){
+        userHashMap = (activity as MainActivity?)!!.userHashMap
+
+        name.text = userHashMap["name"]
+        println("!!!${userHashMap["name"]}")
+        nickName.text = userHashMap["nickname"]
+        phoneNumber.text = userHashMap["phone"]
+        postBox.text = userHashMap["email"]
+        information.text = userHashMap["aboutMe"]
+        profession.text = userHashMap["profession"]
+
+        avatar.load(userHashMap["photoLink"]){
             crossfade(true)
             transformations(RoundedCornersTransformation(32f))
         }
@@ -62,10 +84,13 @@ class UserProfile: Fragment() {
         postBox = view.findViewById(R.id.user_postbox) as TextView
         phoneNumber = view.findViewById(R.id.user_number) as TextView
         information = view.findViewById(R.id.user_information) as TextView
+
         editProfile = view.findViewById(R.id.user_edit_profile) as TextView
         settings = view.findViewById(R.id.user_settings) as TextView
         deleteProfile = view.findViewById(R.id.user_delete_profile) as TextView
         exitButton = view.findViewById(R.id.user_account_exit) as TextView
+
         avatar = view.findViewById(R.id.user_avatar) as ImageView
+
     }
 }

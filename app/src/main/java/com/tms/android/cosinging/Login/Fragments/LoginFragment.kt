@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.tms.android.cosinging.R
 import com.tms.android.cosinging.Login.LogOrRegActivity
+import com.tms.android.cosinging.Utils.AppValueEventListener
 
 class LoginFragment: Fragment() {
 
@@ -19,6 +20,8 @@ class LoginFragment: Fragment() {
     private lateinit var enterPassword: EditText
     private lateinit var loginButton: Button
     private lateinit var forgetPassword: TextView
+
+    private lateinit var adminButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +68,16 @@ class LoginFragment: Fragment() {
         var emailSimilar = ""
         var correctPassword = ""
 
+        adminButton.setOnClickListener {
+            fireAuth.signInWithEmailAndPassword("admin@gmail.com", "123456").addOnSuccessListener {
+                Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show()
+                (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).addValueEventListener(AppValueEventListener{
+                    (activity as LogOrRegActivity?)!!.userHashMap = it.value as HashMap<String, String>
+                    (activity as LogOrRegActivity?)!!.nextActivity()
+                })
+            }
+        }
+
         loginButton.setOnClickListener {
             musicianAccountBase.whereEqualTo("email", enterEmail.text.toString()).get().addOnSuccessListener {
                 it.forEach {
@@ -85,9 +98,12 @@ class LoginFragment: Fragment() {
                     Toast.makeText(context, "Wrong email or password", Toast.LENGTH_SHORT).show()
                 }
                 else if (enterEmail.text.toString() == emailSimilar && enterPassword.text.toString() == correctPassword){
-                    fireAuth.signInWithEmailAndPassword(enterEmail.text.toString(), enterPassword.text.toString()).addOnCompleteListener {
+                    fireAuth.signInWithEmailAndPassword(enterEmail.text.toString(), enterPassword.text.toString()).addOnSuccessListener {
                         Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show()
-                        (activity as LogOrRegActivity?)!!.nextActivity()
+                        (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).addValueEventListener(AppValueEventListener{
+                            (activity as LogOrRegActivity?)!!.userHashMap = it.value as HashMap<String, String>
+                            (activity as LogOrRegActivity?)!!.nextActivity()
+                        })
                     }.addOnFailureListener {
                         Toast.makeText(context, "Wrong email or password", Toast.LENGTH_SHORT).show()
                     }
@@ -107,5 +123,7 @@ class LoginFragment: Fragment() {
         enterPassword = view.findViewById(R.id.login_enter_password) as EditText
         loginButton = view.findViewById(R.id.login_button) as Button
         forgetPassword = view.findViewById(R.id.login_forget_password) as TextView
+
+        adminButton = view.findViewById(R.id.admin_button) as Button
     }
 }
