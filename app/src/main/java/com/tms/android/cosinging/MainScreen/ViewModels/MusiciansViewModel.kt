@@ -22,13 +22,13 @@ class MusiciansViewModel: ViewModel() {
     private val profession = "Гитарист"
 
     init {
-//        for(index in 0..100){
-//            val musician = Musician(id = index.toString())
-//            musician.name = this.name
-//            musician.profession = this.profession
-//            musician.photoLink = linkImg
-//
-//            musicianList += musician
-//        }
+        for(index in 0..100){
+            val musician = Musician(id = index.toString())
+            musician.name = this.name
+            musician.profession = this.profession
+            musician.photoLink = linkImg
+
+            musicianList += musician
+        }
     }
 }
