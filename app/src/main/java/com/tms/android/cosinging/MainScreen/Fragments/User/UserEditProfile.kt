@@ -9,10 +9,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.tms.android.cosinging.MainScreen.Data.Musician
 import com.tms.android.cosinging.R
 import com.tms.android.cosinging.MainScreen.MainActivity
+import com.tms.android.cosinging.MainScreen.ViewModels.UserViewModel
 
 class UserEditProfile: Fragment() {
 
@@ -22,8 +26,15 @@ class UserEditProfile: Fragment() {
     private lateinit var editNickname: EditText
     private lateinit var editPhoneNumber: EditText
     private lateinit var editUserInformation: EditText
+
     private lateinit var buttonBack: Button
     private lateinit var buttonConfirm: Button
+
+    private lateinit var userHashMap: HashMap<String, String>
+
+    private val userViewModel: UserViewModel by lazy {
+        ViewModelProviders.of(this).get(UserViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,17 +49,44 @@ class UserEditProfile: Fragment() {
 
         findElements(view)
 
-        editImage.load("https://www.buro247.ua/images/2017/09/neytiri-avatar-5824.jpg"){
-            crossfade(true)
-            transformations(RoundedCornersTransformation(32f))
-        }
+        loadData()
 
         buttonBack.setOnClickListener {
             (activity as MainActivity?)!!.onBackPressed()
         }
 
         buttonConfirm.setOnClickListener {
-            Toast.makeText(context, "Confirmed!", Toast.LENGTH_SHORT).show()
+            val editedHashMap = hashMapOf(
+                "name" to editName.text.toString(),
+                "nickname" to editNickname.text.toString(),
+                "profession" to editProfession.text.toString(),
+                "phone" to editPhoneNumber.text.toString(),
+                "aboutMe" to editUserInformation.text.toString(),
+                "email" to userHashMap["email"] as String,
+                "photoLink" to userHashMap["photoLink"] as String,
+                "id" to userHashMap["id"] as String,
+                "password" to userHashMap["password"] as String
+            )
+
+            val userEdited = Musician()
+            userEdited.id = editedHashMap["id"].toString()
+            userEdited.aboutMe = editedHashMap["aboutMe"].toString()
+            userEdited.name = editedHashMap["name"].toString()
+            userEdited.email = editedHashMap["email"].toString()
+            userEdited.nickname = editedHashMap["nickname"].toString()
+            userEdited.password = editedHashMap["password"].toString()
+            userEdited.phone = editedHashMap["phone"].toString()
+            userEdited.photoLink = editedHashMap["photoLink"].toString()
+            userEdited.profession = editedHashMap["profession"].toString()
+
+            userViewModel.fireStore.collection("MusicianAccount").document("user${userEdited.id}").set(editedHashMap)
+
+            userHashMap["id"]?.let { it1 -> userViewModel.users.child(it1) }?.setValue(userEdited)?.addOnSuccessListener {
+                (activity as MainActivity?)!!.userHashMap = editedHashMap
+                Toast.makeText(context, "Changes saved!", Toast.LENGTH_SHORT).show()
+            }?.addOnFailureListener {
+                Toast.makeText(context, "Something went wrong :(", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return view
@@ -67,5 +105,21 @@ class UserEditProfile: Fragment() {
         editUserInformation = view.findViewById(R.id.edit_profile_about_me) as EditText
         buttonBack = view.findViewById(R.id.edit_profile_button_back) as Button
         buttonConfirm = view.findViewById(R.id.edit_profile_button_confirm) as Button
+    }
+
+    private fun loadData(){
+        arguments?.let { bundle ->
+            userHashMap = bundle.getSerializable("userHashMap") as HashMap<String, String>
+        }
+        editName.setText(userHashMap["name"])
+        editProfession.setText(userHashMap["profession"])
+        editNickname.setText(userHashMap["nickname"])
+        editPhoneNumber.setText(userHashMap["phone"])
+        editUserInformation.setText(userHashMap["aboutMe"])
+
+        editImage.load(userHashMap["photoLink"]){
+            crossfade(true)
+            transformations(RoundedCornersTransformation(32f))
+        }
     }
 }

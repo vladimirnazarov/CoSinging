@@ -11,10 +11,8 @@ class UserViewModel: ViewModel() {
 
     private var fireDatabase = FirebaseDatabase.getInstance()
     private var fireAuth = FirebaseAuth.getInstance()
-    private val fireStore = FirebaseFirestore.getInstance()
+    val fireStore = FirebaseFirestore.getInstance()
     var users = fireDatabase.getReference("User")
 
-    val userHash: MutableLiveData<HashMap<String, String>> by lazy {
-        MutableLiveData<HashMap<String, String>>()
-    }
+    var userHash = hashMapOf("not_empty unit" to "not_null")
 }

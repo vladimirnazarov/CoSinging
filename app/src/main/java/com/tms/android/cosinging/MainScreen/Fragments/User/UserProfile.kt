@@ -1,11 +1,13 @@
 package com.tms.android.cosinging.MainScreen.Fragments.User
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -51,10 +53,9 @@ class UserProfile: Fragment() {
 
         findElements(view)
 
-        userHashMap = (activity as MainActivity?)!!.userHashMap
+        loadHash()
 
         name.text = userHashMap["name"]
-        println("!!!${userHashMap["name"]}")
         nickName.text = userHashMap["nickname"]
         phoneNumber.text = userHashMap["phone"]
         postBox.text = userHashMap["email"]
@@ -67,10 +68,15 @@ class UserProfile: Fragment() {
         }
 
         editProfile.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_userProfile_to_userEditProfile)
+            navigateData(view)
         }
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadHash()
     }
 
     companion object{
@@ -91,6 +97,21 @@ class UserProfile: Fragment() {
         exitButton = view.findViewById(R.id.user_account_exit) as TextView
 
         avatar = view.findViewById(R.id.user_avatar) as ImageView
+    }
 
+    private fun navigateData(view: View){
+        val bundle = bundleOf(
+            "userHashMap" to userHashMap
+        )
+        Navigation.findNavController(requireView()).navigate(R.id.action_userProfile_to_userEditProfile, bundle)
+    }
+
+    private fun loadHash(){
+        println(userViewModel.userHash)
+        userHashMap = if (userViewModel.userHash == hashMapOf("not_empty unit" to "not_null")){
+            (activity as MainActivity?)!!.userHashMap
+        } else  {
+            userViewModel.userHash
+        }
     }
 }

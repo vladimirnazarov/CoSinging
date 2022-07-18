@@ -95,21 +95,19 @@ class RegisterFragment: Fragment() {
                             "nickname" to musician.nickname,
                             "phone" to musician.phone,
                             "photoLink" to musician.photoLink,
-                            "profession" to musician.profession,
-                            "userRegID" to fireAuth.uid)
+                            "profession" to musician.profession
+                        )
 
                         fireStore.collection("MusicianAccount").document(musician.nickname).set(musicianHash)
 
-                        fireAuth.currentUser?.let { it1 -> users.child(it1.uid) }?.setValue(musician)
-                            ?.addOnSuccessListener {
-                                Toast.makeText(context, "Successfully registered!", Toast.LENGTH_SHORT).show()
-                                (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).addValueEventListener(
-                                    AppValueEventListener{
-                                    (activity as LogOrRegActivity?)!!.userHashMap = it.value as HashMap<String, String>
-                                    (activity as LogOrRegActivity?)!!.nextActivity()
-                                })
-                            }?.addOnFailureListener {
-                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                        fireAuth.currentUser?.let { it1 -> users.child(it1.uid) }?.setValue(musician)?.addOnSuccessListener {
+                                Toast.makeText(context,"Successfully registered!", Toast.LENGTH_SHORT).show()
+                                (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).get().addOnSuccessListener {
+                                        (activity as LogOrRegActivity?)!!.userHashMap = it.value as HashMap<String, String>
+                                        (activity as LogOrRegActivity?)!!.nextActivity()
+                                    }.addOnFailureListener {
+                                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                                    }
                             }
                     }
                 }

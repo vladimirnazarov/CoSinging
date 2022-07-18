@@ -7,46 +7,190 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="8dp">
 
-    <EditText
-        android:id="@+id/edit_profile_about_me"
-        android:layout_width="356dp"
-        android:layout_height="143dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="20dp"
-        android:background="#e3e1e1"
-        android:ems="10"
-        android:gravity="left|top"
-        android:hint="@string/about_me"
-        android:inputType="textMultiLine"
-        android:maxLength="256"
-        android:textSize="14sp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="@string/edit_profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_phone_number" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_toolbar">
 
-    <EditText
-        android:id="@+id/edit_profile_phone_number"
-        android:layout_width="360dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="@string/phone_number"
-        android:inputType="phone"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_nickname" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/edit_profile_nickname"
-        android:layout_width="360dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="@string/nickname"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_avatar" />
+            <EditText
+                android:id="@+id/edit_profile_name"
+                android:layout_width="210dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:ems="10"
+                android:hint="@string/name"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/edit_profile_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_name_title" />
+
+            <EditText
+                android:id="@+id/edit_profile_about_me"
+                android:layout_width="356dp"
+                android:layout_height="143dp"
+                android:layout_marginStart="16dp"
+                android:background="#e3e1e1"
+                android:ems="10"
+                android:gravity="left|top"
+                android:hint="@string/about_me"
+                android:inputType="textMultiLine"
+                android:maxLength="256"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_about_me_title" />
+
+            <EditText
+                android:id="@+id/edit_profile_profession"
+                android:layout_width="210dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:ems="10"
+                android:hint="Profession"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/edit_profile_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_profession_title" />
+
+            <EditText
+                android:id="@+id/edit_profile_phone_number"
+                android:layout_width="360dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:ems="10"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_phone_title" />
+
+            <TextView
+                android:id="@+id/edit_profile_about_me_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/about_me"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_phone_number" />
+
+            <TextView
+                android:id="@+id/edit_profile_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:text="@string/name"
+                app:layout_constraintStart_toEndOf="@+id/edit_profile_avatar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/edit_profile_avatar"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/edit_profile_email_constant"
+                android:layout_width="350dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="tooldiamond2014@gmail.com"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_avatar" />
+
+            <TextView
+                android:id="@+id/edit_profile_nickname_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:text="@string/nickname"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_email_constant" />
+
+            <TextView
+                android:id="@+id/edit_profile_phone_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/phone_number"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_nickname" />
+
+            <TextView
+                android:id="@+id/edit_profile_profession_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:text="Profession"
+                app:layout_constraintStart_toEndOf="@+id/edit_profile_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_name" />
+
+            <EditText
+                android:id="@+id/edit_profile_nickname"
+                android:layout_width="360dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:ems="10"
+                android:hint="@string/nickname"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_nickname_title" />
+
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_profile_about_me">
+
+                <Button
+                    android:id="@+id/edit_profile_button_back"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:text="@string/go_back" />
+
+                <Button
+                    android:id="@+id/edit_profile_button_confirm"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/confirm" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/edit_profile_toolbar"
@@ -59,74 +203,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="CoSinging" />
-
-    <ImageView
-        android:id="@+id/edit_profile_avatar"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_toolbar"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <EditText
-        android:id="@+id/edit_profile_name"
-        android:layout_width="210dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="@string/name"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/edit_profile_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_toolbar" />
-
-    <EditText
-        android:id="@+id/edit_profile_profession"
-        android:layout_width="210dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:hint="Profession"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/edit_profile_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_name" />
-
-    <Button
-        android:id="@+id/edit_profile_button_back"
-        android:layout_width="176dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/go_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_about_me" />
-
-    <Button
-        android:id="@+id/edit_profile_button_confirm"
-        android:layout_width="176dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/confirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.931"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_about_me" />
-
-    <TextView
-        android:id="@+id/edit_profile_email_constant"
-        android:layout_width="200dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:text="tooldiamond2014@gmail.com"
-        app:layout_constraintStart_toEndOf="@+id/edit_profile_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_profession" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

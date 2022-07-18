@@ -71,10 +71,10 @@ class LoginFragment: Fragment() {
         adminButton.setOnClickListener {
             fireAuth.signInWithEmailAndPassword("admin@gmail.com", "123456").addOnSuccessListener {
                 Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show()
-                (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).addValueEventListener(AppValueEventListener{
+                (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).get().addOnSuccessListener{
                     (activity as LogOrRegActivity?)!!.userHashMap = it.value as HashMap<String, String>
                     (activity as LogOrRegActivity?)!!.nextActivity()
-                })
+                }
             }
         }
 
@@ -100,10 +100,10 @@ class LoginFragment: Fragment() {
                 else if (enterEmail.text.toString() == emailSimilar && enterPassword.text.toString() == correctPassword){
                     fireAuth.signInWithEmailAndPassword(enterEmail.text.toString(), enterPassword.text.toString()).addOnSuccessListener {
                         Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show()
-                        (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).addValueEventListener(AppValueEventListener{
+                        (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).get().addOnSuccessListener{
                             (activity as LogOrRegActivity?)!!.userHashMap = it.value as HashMap<String, String>
                             (activity as LogOrRegActivity?)!!.nextActivity()
-                        })
+                        }
                     }.addOnFailureListener {
                         Toast.makeText(context, "Wrong email or password", Toast.LENGTH_SHORT).show()
                     }

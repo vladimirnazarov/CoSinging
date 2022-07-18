@@ -21,19 +21,17 @@ private const val EXTRA_USER_DATA = "CURRENT USER DATA"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var musicianIDGet: String
-    lateinit var userHashMap: HashMap<String, String>
+    var userHashMap: HashMap<String, String> = HashMap()
+
+    private val userViewModel: UserViewModel by lazy{
+        ViewModelProviders.of(this).get(UserViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val userViewModel: UserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
-        readData(userViewModel)
-
-        userViewModel.userHash.observe(this, Observer{
-            userHashMap = it
-        })
+        readData()
     }
 
     /**
@@ -47,9 +45,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun readData(userViewModel: UserViewModel){
-        userHashMap = intent.getSerializableExtra("CURRENT USER DATA") as HashMap<String, String>
-
-        userViewModel.userHash.value = userHashMap
+    private fun readData(){
+        if (userViewModel.userHash == hashMapOf("not_empty unit" to "not_null")) {
+            userHashMap = intent.getSerializableExtra("CURRENT USER DATA") as HashMap<String, String>
+            userViewModel.userHash = userHashMap
+        }
     }
 }
