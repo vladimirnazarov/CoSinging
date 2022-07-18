@@ -9,14 +9,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.tms.android.cosinging.MainScreen.Data.Musician
 import com.tms.android.cosinging.R
 import com.tms.android.cosinging.MainScreen.MainActivity
-import com.tms.android.cosinging.MainScreen.ViewModels.UserViewModel
 
 class UserEditProfile: Fragment() {
 
@@ -31,10 +28,6 @@ class UserEditProfile: Fragment() {
     private lateinit var buttonConfirm: Button
 
     private lateinit var userHashMap: HashMap<String, String>
-
-    private val userViewModel: UserViewModel by lazy {
-        ViewModelProviders.of(this).get(UserViewModel::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,33 +49,18 @@ class UserEditProfile: Fragment() {
         }
 
         buttonConfirm.setOnClickListener {
-            val editedHashMap = hashMapOf(
-                "name" to editName.text.toString(),
-                "nickname" to editNickname.text.toString(),
-                "profession" to editProfession.text.toString(),
-                "phone" to editPhoneNumber.text.toString(),
-                "aboutMe" to editUserInformation.text.toString(),
-                "email" to userHashMap["email"] as String,
-                "photoLink" to userHashMap["photoLink"] as String,
-                "id" to userHashMap["id"] as String,
-                "password" to userHashMap["password"] as String
-            )
+            val editedHashMap = editedHashMapReturn()
 
-            val userEdited = Musician()
-            userEdited.id = editedHashMap["id"].toString()
-            userEdited.aboutMe = editedHashMap["aboutMe"].toString()
-            userEdited.name = editedHashMap["name"].toString()
-            userEdited.email = editedHashMap["email"].toString()
-            userEdited.nickname = editedHashMap["nickname"].toString()
-            userEdited.password = editedHashMap["password"].toString()
-            userEdited.phone = editedHashMap["phone"].toString()
-            userEdited.photoLink = editedHashMap["photoLink"].toString()
-            userEdited.profession = editedHashMap["profession"].toString()
+            val userEdited = userEditedReturn(editedHashMap)
 
-            userViewModel.fireStore.collection("MusicianAccount").document("user${userEdited.id}").set(editedHashMap)
+            val activity = (activity as MainActivity?)!!
+            val fireStore = (activity as MainActivity?)!!.getFirestore()
+            val users = activity.getUsers()
 
-            userHashMap["id"]?.let { it1 -> userViewModel.users.child(it1) }?.setValue(userEdited)?.addOnSuccessListener {
-                (activity as MainActivity?)!!.userHashMap = editedHashMap
+            fireStore.collection("MusicianAccount").document("user${userEdited.id}").set(editedHashMap)
+
+            userHashMap["id"]?.let { it1 -> users.child(it1) }?.setValue(userEdited)?.addOnSuccessListener {
+                (activity as MainActivity?)!!.setUserHash(editedHashMap)
                 Toast.makeText(context, "Changes saved!", Toast.LENGTH_SHORT).show()
             }?.addOnFailureListener {
                 Toast.makeText(context, "Something went wrong :(", Toast.LENGTH_SHORT).show()
@@ -121,5 +99,36 @@ class UserEditProfile: Fragment() {
             crossfade(true)
             transformations(RoundedCornersTransformation(32f))
         }
+    }
+
+    private fun editedHashMapReturn(): HashMap<String, String> {
+
+        return hashMapOf(
+            "name" to editName.text.toString(),
+            "nickname" to editNickname.text.toString(),
+            "profession" to editProfession.text.toString(),
+            "phone" to editPhoneNumber.text.toString(),
+            "aboutMe" to editUserInformation.text.toString(),
+            "email" to userHashMap["email"] as String,
+            "photoLink" to userHashMap["photoLink"] as String,
+            "id" to userHashMap["id"] as String,
+            "password" to userHashMap["password"] as String
+        )
+    }
+
+    private fun userEditedReturn(editedHashMap: HashMap<String, String>): Musician{
+
+        val userEdited = Musician()
+        userEdited.id = editedHashMap["id"].toString()
+        userEdited.aboutMe = editedHashMap["aboutMe"].toString()
+        userEdited.name = editedHashMap["name"].toString()
+        userEdited.email = editedHashMap["email"].toString()
+        userEdited.nickname = editedHashMap["nickname"].toString()
+        userEdited.password = editedHashMap["password"].toString()
+        userEdited.phone = editedHashMap["phone"].toString()
+        userEdited.photoLink = editedHashMap["photoLink"].toString()
+        userEdited.profession = editedHashMap["profession"].toString()
+
+        return userEdited
     }
 }

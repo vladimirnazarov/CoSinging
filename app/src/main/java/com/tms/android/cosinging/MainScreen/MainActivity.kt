@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        userViewModel.userHash.observe(this, Observer{
+            userHashMap = it
+        })
+
         readData()
     }
 
@@ -46,9 +50,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun readData(){
-        if (userViewModel.userHash == hashMapOf("not_empty unit" to "not_null")) {
+        if (userViewModel.userHash.value == null) {
             userHashMap = intent.getSerializableExtra("CURRENT USER DATA") as HashMap<String, String>
-            userViewModel.userHash = userHashMap
+            userViewModel.userHash.value = userHashMap
         }
     }
+
+    fun setUserHash(hashMap: HashMap<String, String>){
+        userViewModel.setUserHash(hashMap)
+    }
+
+    fun getUsers() = userViewModel.getUsers()
+
+    fun getFirestore() = userViewModel.getFirestore()
+
+    fun getFireAuth() = userViewModel.getFireAuth()
 }

@@ -28,9 +28,6 @@ class ListOfMusicians: Fragment() {
     private val musicianListViewModel: MusiciansViewModel by lazy {
         ViewModelProviders.of(this).get(MusiciansViewModel::class.java)
     }
-    private val userViewModel: UserViewModel by lazy {
-        ViewModelProviders.of(this).get(UserViewModel::class.java)
-    }
 
     private lateinit var userHashMap: HashMap<String, String>
 
@@ -41,6 +38,7 @@ class ListOfMusicians: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -53,10 +51,7 @@ class ListOfMusicians: Fragment() {
         musicianListRecyclerView = view.findViewById(R.id.musician_list_total) as RecyclerView
         musicianListRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        userAvatar = view.findViewById(R.id.main_screen_user_avatar) as ImageView
-        userAvatar.setOnClickListener{
-            Navigation.findNavController(requireView()).navigate(R.id.action_listOfMusicians_to_userProfile)
-        }
+        loadUserAvatar(view)
 
         updateUI()
 
@@ -73,6 +68,7 @@ class ListOfMusicians: Fragment() {
             transformations(CircleCropTransformation())
         }
     }
+
 
     private inner class ListOfMusiciansHolder(view: View): RecyclerView.ViewHolder(view){
 
@@ -126,5 +122,13 @@ class ListOfMusicians: Fragment() {
         val musicianList = musicianListViewModel.musicianList
         adapter = ListOfMusiciansAdapter(musicianList)
         musicianListRecyclerView.adapter = adapter
+    }
+
+    private fun loadUserAvatar(view: View){
+        userAvatar = view.findViewById(R.id.main_screen_user_avatar) as ImageView
+        userAvatar.setOnClickListener {
+            Navigation.findNavController(requireView())
+                .navigate(R.id.action_listOfMusicians_to_userProfile)
+        }
     }
 }

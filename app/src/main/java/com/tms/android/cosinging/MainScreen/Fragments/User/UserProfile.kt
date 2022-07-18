@@ -36,10 +36,6 @@ class UserProfile: Fragment() {
     private lateinit var avatar: ImageView
     private lateinit var userHashMap: HashMap<String, String>
 
-    private val userViewModel: UserViewModel by lazy {
-        ViewModelProviders.of(this).get(UserViewModel::class.java)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -53,19 +49,7 @@ class UserProfile: Fragment() {
 
         findElements(view)
 
-        loadHash()
-
-        name.text = userHashMap["name"]
-        nickName.text = userHashMap["nickname"]
-        phoneNumber.text = userHashMap["phone"]
-        postBox.text = userHashMap["email"]
-        information.text = userHashMap["aboutMe"]
-        profession.text = userHashMap["profession"]
-
-        avatar.load(userHashMap["photoLink"]){
-            crossfade(true)
-            transformations(RoundedCornersTransformation(32f))
-        }
+        loadHashAndData()
 
         editProfile.setOnClickListener {
             navigateData(view)
@@ -76,7 +60,7 @@ class UserProfile: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        loadHash()
+        loadHashAndData()
     }
 
     companion object{
@@ -106,12 +90,19 @@ class UserProfile: Fragment() {
         Navigation.findNavController(requireView()).navigate(R.id.action_userProfile_to_userEditProfile, bundle)
     }
 
-    private fun loadHash(){
-        println(userViewModel.userHash)
-        userHashMap = if (userViewModel.userHash == hashMapOf("not_empty unit" to "not_null")){
-            (activity as MainActivity?)!!.userHashMap
-        } else  {
-            userViewModel.userHash
+    private fun loadHashAndData(){
+        userHashMap = (activity as MainActivity?)!!.userHashMap
+
+        name.text = userHashMap["name"]
+        nickName.text = userHashMap["nickname"]
+        phoneNumber.text = userHashMap["phone"]
+        postBox.text = userHashMap["email"]
+        information.text = userHashMap["aboutMe"]
+        profession.text = userHashMap["profession"]
+
+        avatar.load(userHashMap["photoLink"]){
+            crossfade(true)
+            transformations(RoundedCornersTransformation(32f))
         }
     }
 }
