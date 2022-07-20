@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.tms.android.cosinging.MainScreen.Data.Musician
 
 class UserViewModel: ViewModel() {
@@ -14,6 +16,7 @@ class UserViewModel: ViewModel() {
     private var fireDatabase = FirebaseDatabase.getInstance()
     private var fireAuth = FirebaseAuth.getInstance()
     private val fireStore = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
     private var users = fireDatabase.getReference("User")
 
     val userHash: MutableLiveData<HashMap<String, String>> = MutableLiveData()
@@ -23,6 +26,8 @@ class UserViewModel: ViewModel() {
     fun getFirestore() = fireStore
 
     fun getFireAuth() = fireAuth
+
+    fun getStorage() = storage
 
     fun getUserHash() = userHash.value
 

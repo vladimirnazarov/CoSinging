@@ -20,11 +20,10 @@ private const val EXTRA_USER_DATA = "CURRENT USER DATA"
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var musicianIDGet: String
     var userHashMap: HashMap<String, String> = HashMap()
 
     private val userViewModel: UserViewModel by lazy{
-        ViewModelProviders.of(this).get(UserViewModel::class.java)
+        ViewModelProviders.of(this)[UserViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,4 +64,6 @@ class MainActivity : AppCompatActivity() {
     fun getFirestore() = userViewModel.getFirestore()
 
     fun getFireAuth() = userViewModel.getFireAuth()
+
+    fun getStorage() = userViewModel.getStorage()
 }

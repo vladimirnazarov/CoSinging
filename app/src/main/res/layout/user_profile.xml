@@ -35,10 +35,10 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/user_information_background"
         app:layout_constraintEnd_toEndOf="@+id/user_information_background"
-        app:layout_constraintHorizontal_bias="0.027"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/user_information_background"
         app:layout_constraintTop_toTopOf="@+id/user_information_background"
-        app:layout_constraintVertical_bias="0.016" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/user_information_title"

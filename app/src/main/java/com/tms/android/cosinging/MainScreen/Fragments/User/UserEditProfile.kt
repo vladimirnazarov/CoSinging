@@ -44,8 +44,14 @@ class UserEditProfile: Fragment() {
 
         loadData()
 
+        val activity = (activity as MainActivity?)!!
+
         buttonBack.setOnClickListener {
             (activity as MainActivity?)!!.onBackPressed()
+        }
+
+        editImage.setOnClickListener {
+
         }
 
         buttonConfirm.setOnClickListener {
@@ -53,14 +59,14 @@ class UserEditProfile: Fragment() {
 
             val userEdited = userEditedReturn(editedHashMap)
 
-            val activity = (activity as MainActivity?)!!
-            val fireStore = (activity as MainActivity?)!!.getFirestore()
+            val fireStore = activity.getFirestore()
+            val storage = activity.getStorage()
             val users = activity.getUsers()
 
             fireStore.collection("MusicianAccount").document("user${userEdited.id}").set(editedHashMap)
 
             userHashMap["id"]?.let { it1 -> users.child(it1) }?.setValue(userEdited)?.addOnSuccessListener {
-                (activity as MainActivity?)!!.setUserHash(editedHashMap)
+                activity.setUserHash(editedHashMap)
                 Toast.makeText(context, "Changes saved!", Toast.LENGTH_SHORT).show()
             }?.addOnFailureListener {
                 Toast.makeText(context, "Something went wrong :(", Toast.LENGTH_SHORT).show()

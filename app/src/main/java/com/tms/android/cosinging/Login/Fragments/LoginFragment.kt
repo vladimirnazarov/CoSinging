@@ -70,7 +70,7 @@ class LoginFragment: Fragment() {
 
         adminButton.setOnClickListener {
             fireAuth.signInWithEmailAndPassword("admin@gmail.com", "123456").addOnSuccessListener {
-                Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Welcome back, my Master!", Toast.LENGTH_SHORT).show()
                 (activity as LogOrRegActivity?)!!.users.child(fireAuth.uid.toString()).get().addOnSuccessListener{
                     (activity as LogOrRegActivity?)!!.userHashMap = it.value as HashMap<String, String>
                     (activity as LogOrRegActivity?)!!.nextActivity()
