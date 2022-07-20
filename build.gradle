@@ -2,10 +2,13 @@
 buildscript {
     repositories {
         google()
-
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.13'
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
@@ -16,5 +19,86 @@ plugins {
 }
 
 task clean(type: Delete) {
-    delete rootProject.buildDir
+     delete rootProject.buildDir
 }
+//buildscript {
+//    ext.kotlinVersion = '1.6.10'
+//    ext.navigationVersion = '2.4.2'
+//    ext.ktlintVersion = '0.44.0'
+//    ext.hiltVersion = '2.42'
+//
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath 'com.android.tools.build:gradle:7.3.0-beta05'
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+//        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+//        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+//
+//        // NOTE: Do not place your application dependencies here; they belong
+//        // in the individual module build.gradle files
+//    }
+//}
+//
+//plugins {
+//    id "com.diffplug.spotless" version "5.12.5"
+//}
+//
+//allprojects {
+//    repositories {
+//        google()
+//        mavenCentral()
+//        maven { url 'https://jitpack.io' }
+//    }
+//    apply plugin: 'com.diffplug.spotless'
+//    spotless {
+//        kotlin {
+//            target "**/*.kt"
+//            targetExclude ".idea/"
+//            ktlint(ktlintVersion)
+//        }
+//    }
+//}
+//
+//subprojects {
+//    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+//        kotlinOptions {
+//            freeCompilerArgs += '-opt-in=kotlin.RequiresOptIn'
+//            freeCompilerArgs += '-opt-in=kotlin.Experimental'
+//        }
+//    }
+//}
+//
+//// Define versions in a single place
+//ext {
+//    // Sdk and tools
+//    minSdkVersion = 21
+//    targetSdkVersion = 32
+//    compileSdkVersion = 32
+//
+//    // App dependencies
+//    accompanistVersion = '0.23.0'
+//    activityComposeVersion = '1.4.0'
+//    androidXVersion = '1.0.0'
+//    androidXTestCoreVersion = '1.4.1-alpha06'
+//    androidXTestExtKotlinRunnerVersion = '1.1.4-alpha06'
+//    androidXTestRulesVersion = '1.4.1-alpha06'
+//    androidXAnnotations = '1.3.0'
+//    archLifecycleVersion = '2.5.0-rc01'
+//    archTestingVersion = '2.1.0'
+//    composeVersion = '1.1.1'
+//    coroutinesVersion = '1.6.1'
+//    dexMakerVersion = '2.12.1'
+//    espressoVersion = '3.5.0-alpha06'
+//    hamcrestVersion = '1.3'
+//    hiltAndroidXVersion = '1.0.0'
+//    junitVersion = '4.13.2'
+//    multiDexVersion = '2.0.1'
+//    robolectricVersion = '4.8.1'
+//    roomVersion = '2.4.2'
+//    rulesVersion = '1.0.1'
+//    timberVersion = '4.7.1'
+//    truthVersion = '1.1.2'
+//}
