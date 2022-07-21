@@ -9,7 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.get
+import com.canhub.cropper.CropImage
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageView
+import com.canhub.cropper.options
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.StorageReference
 import com.tms.android.cosinging.MainScreen.Data.Musician
 import com.tms.android.cosinging.MainScreen.ViewModels.MusiciansViewModel
 import com.tms.android.cosinging.MainScreen.ViewModels.UserViewModel

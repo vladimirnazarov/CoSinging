@@ -1,5 +1,7 @@
 package com.tms.android.cosinging.MainScreen.Fragments.User
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +10,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.canhub.cropper.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.tms.android.cosinging.MainScreen.Data.Musician
 import com.tms.android.cosinging.R
 import com.tms.android.cosinging.MainScreen.MainActivity
@@ -29,6 +36,8 @@ class UserEditProfile: Fragment() {
 
     private lateinit var userHashMap: HashMap<String, String>
 
+    private var photoUrl = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,14 +53,25 @@ class UserEditProfile: Fragment() {
 
         loadData()
 
-        val activity = (activity as MainActivity?)!!
+        val fireAuth = (activity as MainActivity?)!!.getFireAuth()
+        val fireStore = (activity as MainActivity?)!!.getFirestore()
+        val storage = (activity as MainActivity?)!!.getStorage()
+        val users = (activity as MainActivity?)!!.getUsers()
+
+        val cropImage = cropImageVar(fireAuth, storage)
 
         buttonBack.setOnClickListener {
             (activity as MainActivity?)!!.onBackPressed()
         }
 
         editImage.setOnClickListener {
-
+            cropImage.launch(
+                options {
+                    setGuidelines(CropImageView.Guidelines.ON)
+                    setAspectRatio(1, 1)
+                    setRequestedSize(600,600)
+                }
+            )
         }
 
         buttonConfirm.setOnClickListener {
@@ -59,14 +79,10 @@ class UserEditProfile: Fragment() {
 
             val userEdited = userEditedReturn(editedHashMap)
 
-            val fireStore = activity.getFirestore()
-            val storage = activity.getStorage()
-            val users = activity.getUsers()
-
             fireStore.collection("MusicianAccount").document("user${userEdited.id}").set(editedHashMap)
 
             userHashMap["id"]?.let { it1 -> users.child(it1) }?.setValue(userEdited)?.addOnSuccessListener {
-                activity.setUserHash(editedHashMap)
+                (activity as MainActivity?)!!.setUserHash(editedHashMap)
                 Toast.makeText(context, "Changes saved!", Toast.LENGTH_SHORT).show()
             }?.addOnFailureListener {
                 Toast.makeText(context, "Something went wrong :(", Toast.LENGTH_SHORT).show()
@@ -116,7 +132,7 @@ class UserEditProfile: Fragment() {
             "phone" to editPhoneNumber.text.toString(),
             "aboutMe" to editUserInformation.text.toString(),
             "email" to userHashMap["email"] as String,
-            "photoLink" to userHashMap["photoLink"] as String,
+            "photoLink" to photoUrl,
             "id" to userHashMap["id"] as String,
             "password" to userHashMap["password"] as String
         )
@@ -136,5 +152,34 @@ class UserEditProfile: Fragment() {
         userEdited.profession = editedHashMap["profession"].toString()
 
         return userEdited
+    }
+
+    private fun cropImageVar(fireAuth: FirebaseAuth, storage: StorageReference): ActivityResultLauncher<CropImageContractOptions> {
+        val cropImage = registerForActivityResult(CropImageContract()) { result ->
+            if (result.isSuccessful) {
+                val uriContent = result.uriContent
+                if (uriContent != null) {
+                    fireAuth.currentUser?.let { storage.child("Profile Images").child(it.uid) }?.putFile(uriContent)
+                        ?.addOnCompleteListener {
+                            storage.child("Profile Images").child(fireAuth.currentUser!!.uid).downloadUrl.addOnCompleteListener {
+                                if (it.isSuccessful){
+                                    photoUrl = it.result.toString()
+                                    editImage.load(photoUrl){
+                                        crossfade(true)
+                                        transformations(RoundedCornersTransformation(32f))
+                                    }
+                                }
+                            }
+                            Toast.makeText(context, "Image was successfully loaded!", Toast.LENGTH_SHORT).show()
+                        }?.addOnFailureListener {
+                            Toast.makeText(context, "Something went wrong :(", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            } else {
+                val exception = result.error
+            }
+        }
+
+        return cropImage
     }
 }
