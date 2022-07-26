@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -52,12 +53,19 @@ class ListOfMusicians: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         musicianHashMap = (activity as MainActivity?)!!.musiciansHashMap
+        (activity as MainActivity?)!!.musicianLiveData.observe(viewLifecycleOwner, Observer{
+            musicianHashMap = it
+            updateUI(musicianHashMap)
+        })
 
         userHashMap = (activity as MainActivity?)!!.userHashMap
-        userAvatar.load(userHashMap["photoLink"]){
-            crossfade(true)
-            transformations(CircleCropTransformation())
-        }
+        (activity as MainActivity?)!!.userLiveData.observe(viewLifecycleOwner, Observer{
+            userHashMap = it
+            userAvatar.load(userHashMap["photoLink"]){
+                crossfade(true)
+                transformations(CircleCropTransformation())
+            }
+        })
 
         updateUI(musicianHashMap)
     }
@@ -85,7 +93,8 @@ class ListOfMusicians: Fragment() {
             }
 
             avatar.setOnClickListener {
-                Navigation.findNavController(requireView()).navigate(R.id.action_listOfMusicians_to_musicianCardFullScreen)
+                val bundle = collectBundle(musician)
+                Navigation.findNavController(requireView()).navigate(R.id.action_listOfMusicians_to_musicianCardFullScreen, bundle)
             }
         }
     }
@@ -101,6 +110,8 @@ class ListOfMusicians: Fragment() {
         override fun onBindViewHolder(holder: ListOfMusiciansHolder, position: Int) {
 
             val musician = list[position]
+            musician.password = ""
+            musician.id = ""
             holder.bind(musician)
         }
 
@@ -145,5 +156,20 @@ class ListOfMusicians: Fragment() {
             Navigation.findNavController(requireView())
                 .navigate(R.id.action_listOfMusicians_to_userProfile)
         }
+    }
+
+    private fun collectBundle(musician: Musician): Bundle {
+        val musicianHashToBundle: HashMap<String, String> = hashMapOf(
+            "email" to musician.email,
+            "aboutMe" to musician.aboutMe,
+            "phone" to musician.phone,
+            "photoLink" to musician.photoLink,
+            "name" to musician.name,
+            "nickname" to musician.nickname,
+            "profession" to musician.profession)
+        val bundle = bundleOf(
+            "musicianHashToBundle" to musicianHashToBundle
+        )
+        return bundle
     }
 }

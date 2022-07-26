@@ -5,10 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.get
+import androidx.lifecycle.*
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
@@ -27,6 +24,9 @@ class MainActivity : AppCompatActivity() {
 
     var userHashMap: HashMap<String, String> = HashMap()
     var musiciansHashMap: HashMap<String, HashMap<String, String>> = HashMap()
+
+    val musicianLiveData: MutableLiveData<HashMap<String, HashMap<String, String>>> = MutableLiveData()
+    val userLiveData: MutableLiveData<HashMap<String, String>> = MutableLiveData()
 
     private val userViewModel: UserViewModel by lazy{
         ViewModelProviders.of(this)[UserViewModel::class.java]
@@ -66,6 +66,15 @@ class MainActivity : AppCompatActivity() {
             userHashMap = intent.getSerializableExtra("CURRENT USER DATA") as HashMap<String, String>
             userViewModel.userHash.value = userHashMap
         }
+        val fireAuthRef = getUserFireAuth()
+        val user = fireAuthRef.currentUser?.let { userViewModel.getUsers().child(it.uid) }
+        if (user != null) {
+            user.addValueEventListener(AppValueEventListener{
+                userHashMap = it.value as HashMap<String, String> /* = java.util.HashMap<kotlin.String, kotlin.String> */
+                userViewModel.setUserHash(userHashMap)
+                userLiveData.value = it.value as HashMap<String, String> /* = java.util.HashMap<kotlin.String, kotlin.String> */
+            })
+        }
     }
 
     private fun readMusiciansData(){
@@ -73,11 +82,12 @@ class MainActivity : AppCompatActivity() {
             musiciansHashMap = intent.getSerializableExtra("ALL USERS DATA") as HashMap<String, HashMap<String, String> /* = java.util.HashMap<kotlin.String, kotlin.String> */> /* = java.util.HashMap<kotlin.String, java.util.HashMap<kotlin.String, kotlin.String>> */
             musiciansViewModel.setHashOfAllUsers(musiciansHashMap)
         }
-//        val users = musiciansViewModel.getMusicianUsers()
-//        users.addValueEventListener(AppValueEventListener{
-//            musiciansHashMap = it.value as HashMap<String, HashMap<String, String>>
-//            musiciansViewModel.setHashOfAllUsers(musiciansHashMap)
-//        })
+        val users = musiciansViewModel.getMusicianUsers()
+        users.addValueEventListener(AppValueEventListener{
+            musiciansHashMap = it.value as HashMap<String, HashMap<String, String>>
+            musiciansViewModel.setHashOfAllUsers(musiciansHashMap)
+            musicianLiveData.value = musiciansHashMap
+        })
     }
 
     fun setUserHash(hashMap: HashMap<String, String>){

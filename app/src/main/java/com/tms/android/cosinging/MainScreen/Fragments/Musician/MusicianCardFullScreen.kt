@@ -8,11 +8,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.tms.android.cosinging.MainScreen.MainActivity
 import com.tms.android.cosinging.R
 import org.w3c.dom.Text
+import java.util.HashMap
 
 class MusicianCardFullScreen: Fragment() {
 
@@ -25,6 +28,8 @@ class MusicianCardFullScreen: Fragment() {
     private lateinit var musicianPhoneNumber: TextView
     private lateinit var musicianInformation: TextView
     private lateinit var musicianChatButton: Button
+
+    private lateinit var musicianHash: HashMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +44,7 @@ class MusicianCardFullScreen: Fragment() {
 
         findElements(view)
 
-        musicianAvatar.load("https://i.pinimg.com/originals/3f/e9/46/3fe9467eccd40719db3707ceafaa2725.jpg"){
-            crossfade(true)
-            transformations(RoundedCornersTransformation(32f))
-        }
-        musicianName.text = "Егор Плащинский"
-        musicianProfession.text = "Гитарист"
-        musicianNickname.text = "mr.saintless"
-        musicianPostbox.text = "mrsaintless@gmail.com"
+        musicianLoadHashAndData()
 
         musicianChatButton.setOnClickListener {
             Toast.makeText(context, "Will be soon!", Toast.LENGTH_SHORT).show()
@@ -69,5 +67,23 @@ class MusicianCardFullScreen: Fragment() {
         musicianProfession = view.findViewById(R.id.musician_profile_profession) as TextView
         musicianInformation = view.findViewById(R.id.musician_profile_information) as TextView
         musicianChatButton = view.findViewById(R.id.musician_profile_chat) as Button
+    }
+
+    private fun musicianLoadHashAndData(){
+        arguments?.let { bundle ->
+            musicianHash = bundle.getSerializable("musicianHashToBundle") as HashMap<String, String>
+        }
+
+        musicianName.text = musicianHash["name"]
+        musicianNickname.text = musicianHash["nickname"]
+        musicianPhoneNumber.text = musicianHash["phone"]
+        musicianPostbox.text = musicianHash["email"]
+        musicianInformation.text = musicianHash["aboutMe"]
+        musicianProfession.text = musicianHash["profession"]
+
+        musicianAvatar.load(musicianHash["photoLink"]){
+            crossfade(true)
+            transformations(RoundedCornersTransformation(32f))
+        }
     }
 }
