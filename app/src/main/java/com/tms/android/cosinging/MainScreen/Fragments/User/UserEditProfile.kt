@@ -53,9 +53,9 @@ class UserEditProfile: Fragment() {
 
         loadData()
 
-        val fireAuth = (activity as MainActivity?)!!.getFireAuth()
-        val fireStore = (activity as MainActivity?)!!.getFirestore()
-        val storage = (activity as MainActivity?)!!.getStorage()
+        val fireAuth = (activity as MainActivity?)!!.getUserFireAuth()
+        val fireStore = (activity as MainActivity?)!!.getUserFirestore()
+        val storage = (activity as MainActivity?)!!.getUserStorage()
         val users = (activity as MainActivity?)!!.getUsers()
 
         val cropImage = cropImageVar(fireAuth, storage)
@@ -84,6 +84,7 @@ class UserEditProfile: Fragment() {
             userHashMap["id"]?.let { it1 -> users.child(it1) }?.setValue(userEdited)?.addOnSuccessListener {
                 (activity as MainActivity?)!!.setUserHash(editedHashMap)
                 Toast.makeText(context, "Changes saved!", Toast.LENGTH_SHORT).show()
+                (activity as MainActivity?)!!.onBackPressed()
             }?.addOnFailureListener {
                 Toast.makeText(context, "Something went wrong :(", Toast.LENGTH_SHORT).show()
             }
@@ -124,6 +125,7 @@ class UserEditProfile: Fragment() {
     }
 
     private fun editedHashMapReturn(): HashMap<String, String> {
+        checkPhotoUrl()
 
         return hashMapOf(
             "name" to editName.text.toString(),
@@ -181,5 +183,11 @@ class UserEditProfile: Fragment() {
         }
 
         return cropImage
+    }
+
+    private fun checkPhotoUrl(){
+        if (photoUrl == ""){
+            photoUrl = userHashMap["photoLink"] as String
+        }
     }
 }

@@ -15,12 +15,14 @@ import com.tms.android.cosinging.R
 import com.tms.android.cosinging.Login.Fragments.LoginFragment
 import com.tms.android.cosinging.Login.Fragments.RegisterFragment
 import com.tms.android.cosinging.MainScreen.MainActivity
+import com.tms.android.cosinging.Utils.AppValueEventListener
 
 class LogOrRegActivity : AppCompatActivity() {
 
     private lateinit var registerButton: Button
 
     lateinit var userHashMap: HashMap<String, String>
+    lateinit var allUsersData: HashMap<String, HashMap<String, String>>
 
     var fireDatabase = FirebaseDatabase.getInstance()
     var fireAuth = FirebaseAuth.getInstance()
@@ -42,6 +44,8 @@ class LogOrRegActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_or_reg)
+
+        getAllUsers()
 
         val currentFragment = supportFragmentManager.findFragmentById(R.id.login_activity_fragments_frame)
         val navController = Navigation.findNavController(this, R.id.login_activity_fragments_frame)
@@ -77,6 +81,13 @@ class LogOrRegActivity : AppCompatActivity() {
     fun nextActivity(){
         val intent = MainActivity.newIntent(this@LogOrRegActivity)
         intent.putExtra("CURRENT USER DATA", userHashMap)
+        intent.putExtra("ALL USERS DATA", allUsersData)
         startActivity(intent)
+    }
+
+    private fun getAllUsers(){
+        users.addValueEventListener(AppValueEventListener{
+            allUsersData = it.value as HashMap<String, HashMap<String, String>>
+        })
     }
 }

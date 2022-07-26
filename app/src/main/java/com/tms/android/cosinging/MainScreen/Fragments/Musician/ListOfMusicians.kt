@@ -8,9 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.get
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,16 +17,11 @@ import coil.transform.RoundedCornersTransformation
 import com.tms.android.cosinging.R
 import com.tms.android.cosinging.MainScreen.Data.Musician
 import com.tms.android.cosinging.MainScreen.MainActivity
-import com.tms.android.cosinging.MainScreen.ViewModels.MusiciansViewModel
-import com.tms.android.cosinging.MainScreen.ViewModels.UserViewModel
 
 class ListOfMusicians: Fragment() {
 
-    private val musicianListViewModel: MusiciansViewModel by lazy {
-        ViewModelProviders.of(this).get(MusiciansViewModel::class.java)
-    }
-
     private lateinit var userHashMap: HashMap<String, String>
+    private lateinit var musicianHashMap: HashMap<String, HashMap<String, String>>
 
     private lateinit var musicianListRecyclerView: RecyclerView
     private var adapter: ListOfMusiciansAdapter? = null
@@ -38,7 +30,6 @@ class ListOfMusicians: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -53,8 +44,6 @@ class ListOfMusicians: Fragment() {
 
         loadUserAvatar(view)
 
-        updateUI()
-
         return view
     }
 
@@ -62,11 +51,15 @@ class ListOfMusicians: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        musicianHashMap = (activity as MainActivity?)!!.musiciansHashMap
+
         userHashMap = (activity as MainActivity?)!!.userHashMap
         userAvatar.load(userHashMap["photoLink"]){
             crossfade(true)
             transformations(CircleCropTransformation())
         }
+
+        updateUI(musicianHashMap)
     }
 
 
@@ -118,8 +111,30 @@ class ListOfMusicians: Fragment() {
         fun newInstance(): ListOfMusicians = ListOfMusicians()
     }
 
-    private fun updateUI(){
-        val musicianList = musicianListViewModel.musicianList
+    private fun updateUI(musicianHashMap: HashMap<String, HashMap<String, String>>){
+        val musicianList = mutableListOf<Musician>()
+
+        if (musicianHashMap.containsKey(userHashMap["id"])){
+            musicianHashMap.remove(userHashMap["id"])
+        }
+
+        for ((key, value) in musicianHashMap) {
+            var secondaryMusicianHash: HashMap<String, String> = HashMap()
+            secondaryMusicianHash = value
+            val musician = Musician(
+                email = secondaryMusicianHash["email"] as String,
+                aboutMe = secondaryMusicianHash["aboutMe"] as String,
+                phone = secondaryMusicianHash["phone"] as String,
+                password = secondaryMusicianHash["password"] as String,
+                profession = secondaryMusicianHash["profession"] as String,
+                photoLink = secondaryMusicianHash["photoLink"] as String,
+                id = secondaryMusicianHash["id"] as String,
+                name = secondaryMusicianHash["name"] as String,
+                nickname = secondaryMusicianHash["nickname"] as String,
+            )
+            musicianList += musician
+        }
+
         adapter = ListOfMusiciansAdapter(musicianList)
         musicianListRecyclerView.adapter = adapter
     }

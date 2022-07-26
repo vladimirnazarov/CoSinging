@@ -1,6 +1,7 @@
 package com.tms.android.cosinging.MainScreen.ViewModels
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -15,20 +16,17 @@ class MusiciansViewModel: ViewModel() {
     private val fireStore = FirebaseFirestore.getInstance()
     private var users = fireDatabase.getReference("User")
 
-    val musicianList = mutableListOf<Musician>()
+    val hashOfAllUsers: MutableLiveData<HashMap<String, HashMap<String, String>>> = MutableLiveData()
 
-    private val linkImg = "https://i.pinimg.com/originals/3f/e9/46/3fe9467eccd40719db3707ceafaa2725.jpg"
-    private val name = "Егор Плащинский"
-    private val profession = "Гитарист"
+    fun getHashOfAllUsers() = hashOfAllUsers.value
 
-    init {
-        for(index in 0..100){
-            val musician = Musician(id = index.toString())
-            musician.name = this.name
-            musician.profession = this.profession
-            musician.photoLink = linkImg
-
-            musicianList += musician
-        }
+    fun setHashOfAllUsers(hashMap: HashMap<String, HashMap<String, String>>){
+        hashOfAllUsers.value = hashMap
     }
+
+    fun getMusicianUsers() = users
+
+    fun getMusicianFireStore() = fireStore
+
+    fun getMusicianFireAuth() = fireAuth
 }

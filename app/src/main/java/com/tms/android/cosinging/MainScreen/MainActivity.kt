@@ -26,9 +26,13 @@ private const val EXTRA_USER_DATA = "CURRENT USER DATA"
 class MainActivity : AppCompatActivity() {
 
     var userHashMap: HashMap<String, String> = HashMap()
+    var musiciansHashMap: HashMap<String, HashMap<String, String>> = HashMap()
 
     private val userViewModel: UserViewModel by lazy{
         ViewModelProviders.of(this)[UserViewModel::class.java]
+    }
+    private val musiciansViewModel: MusiciansViewModel by lazy{
+        ViewModelProviders.of(this)[MusiciansViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,8 +42,12 @@ class MainActivity : AppCompatActivity() {
         userViewModel.userHash.observe(this, Observer{
             userHashMap = it
         })
+        musiciansViewModel.hashOfAllUsers.observe(this, Observer{
+            musiciansHashMap = it
+        })
 
-        readData()
+        readMusiciansData()
+        readUserData()
     }
 
     /**
@@ -53,11 +61,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun readData(){
+    private fun readUserData(){
         if (userViewModel.userHash.value == null) {
             userHashMap = intent.getSerializableExtra("CURRENT USER DATA") as HashMap<String, String>
             userViewModel.userHash.value = userHashMap
         }
+    }
+
+    private fun readMusiciansData(){
+        if (musiciansViewModel.hashOfAllUsers.value == null){
+            musiciansHashMap = intent.getSerializableExtra("ALL USERS DATA") as HashMap<String, HashMap<String, String> /* = java.util.HashMap<kotlin.String, kotlin.String> */> /* = java.util.HashMap<kotlin.String, java.util.HashMap<kotlin.String, kotlin.String>> */
+            musiciansViewModel.setHashOfAllUsers(musiciansHashMap)
+        }
+//        val users = musiciansViewModel.getMusicianUsers()
+//        users.addValueEventListener(AppValueEventListener{
+//            musiciansHashMap = it.value as HashMap<String, HashMap<String, String>>
+//            musiciansViewModel.setHashOfAllUsers(musiciansHashMap)
+//        })
     }
 
     fun setUserHash(hashMap: HashMap<String, String>){
@@ -66,9 +86,9 @@ class MainActivity : AppCompatActivity() {
 
     fun getUsers() = userViewModel.getUsers()
 
-    fun getFirestore() = userViewModel.getFirestore()
+    fun getUserFirestore() = userViewModel.getFirestore()
 
-    fun getFireAuth() = userViewModel.getFireAuth()
+    fun getUserFireAuth() = userViewModel.getFireAuth()
 
-    fun getStorage() = userViewModel.getStorage()
+    fun getUserStorage() = userViewModel.getStorage()
 }
