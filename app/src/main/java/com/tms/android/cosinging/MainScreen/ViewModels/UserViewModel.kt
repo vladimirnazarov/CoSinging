@@ -18,10 +18,13 @@ class UserViewModel: ViewModel() {
     private val fireStore = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance().reference
     private var users = fireDatabase.getReference("User")
+    private var userFavourites = fireDatabase.getReference("Favourites")
 
     val userHash: MutableLiveData<HashMap<String, String>> = MutableLiveData()
 
     fun getUsers() = users
+
+    fun getUserFavourites() = userFavourites
 
     fun getFirestore() = fireStore
 

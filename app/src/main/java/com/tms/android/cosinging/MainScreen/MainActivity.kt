@@ -101,4 +101,6 @@ class MainActivity : AppCompatActivity() {
     fun getUserFireAuth() = userViewModel.getFireAuth()
 
     fun getUserStorage() = userViewModel.getStorage()
+
+    fun getUserFavourites() = userViewModel.getUserFavourites()
 }

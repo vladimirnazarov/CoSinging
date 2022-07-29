@@ -1,11 +1,14 @@
 package com.tms.android.cosinging.MainScreen.Fragments.Musician
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
+import com.tms.android.cosinging.MainScreen.Data.FavouriteUser
 import com.tms.android.cosinging.R
 import com.tms.android.cosinging.MainScreen.Data.Musician
 import com.tms.android.cosinging.MainScreen.MainActivity
+import com.tms.android.cosinging.Utils.AppValueEventListener
+import java.lang.Exception
 
 class ListOfMusicians: Fragment() {
 
@@ -52,20 +58,9 @@ class ListOfMusicians: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        musicianHashMap = (activity as MainActivity?)!!.musiciansHashMap
-        (activity as MainActivity?)!!.musicianLiveData.observe(viewLifecycleOwner, Observer{
-            musicianHashMap = it
-            updateUI(musicianHashMap)
-        })
+        updateMusicianHash()
 
-        userHashMap = (activity as MainActivity?)!!.userHashMap
-        (activity as MainActivity?)!!.userLiveData.observe(viewLifecycleOwner, Observer{
-            userHashMap = it
-            userAvatar.load(userHashMap["photoLink"]){
-                crossfade(true)
-                transformations(CircleCropTransformation())
-            }
-        })
+        updateUserHash()
 
         updateUI(musicianHashMap)
     }
@@ -77,7 +72,7 @@ class ListOfMusicians: Fragment() {
         private val name: TextView = itemView.findViewById(R.id.musician_list_name)
         private val profession: TextView = itemView.findViewById(R.id.musician_list_profession)
         private val avatar: ImageView = itemView.findViewById(R.id.musician_list_avatar)
-        private val favouriteImg: ImageView = itemView.findViewById(R.id.musician_list_favourite)
+        private val optionsMenu: ImageView = itemView.findViewById(R.id.musician_list_musician_options_menu)
         private lateinit var imgLink: String
 
         fun bind(musician: Musician){
@@ -96,6 +91,11 @@ class ListOfMusicians: Fragment() {
                 val bundle = collectBundle(musician)
                 Navigation.findNavController(requireView()).navigate(R.id.action_listOfMusicians_to_musicianCardFullScreen, bundle)
             }
+
+            optionsMenu.setOnClickListener {
+
+                popupAction(it, musician)
+            }
         }
     }
 
@@ -111,7 +111,6 @@ class ListOfMusicians: Fragment() {
 
             val musician = list[position]
             musician.password = ""
-            musician.id = ""
             holder.bind(musician)
         }
 
@@ -142,6 +141,7 @@ class ListOfMusicians: Fragment() {
                 id = secondaryMusicianHash["id"] as String,
                 name = secondaryMusicianHash["name"] as String,
                 nickname = secondaryMusicianHash["nickname"] as String,
+
             )
             musicianList += musician
         }
@@ -171,5 +171,84 @@ class ListOfMusicians: Fragment() {
             "musicianHashToBundle" to musicianHashToBundle
         )
         return bundle
+    }
+
+    private fun updateUserHash(){
+        userHashMap = (activity as MainActivity?)!!.userHashMap
+        (activity as MainActivity?)!!.userLiveData.observe(viewLifecycleOwner, Observer{
+            userHashMap = it
+            userAvatar.load(userHashMap["photoLink"]){
+                crossfade(true)
+                transformations(CircleCropTransformation())
+            }
+        })
+    }
+
+    private fun updateMusicianHash(){
+        musicianHashMap = (activity as MainActivity?)!!.musiciansHashMap
+        (activity as MainActivity?)!!.musicianLiveData.observe(viewLifecycleOwner, Observer{
+            musicianHashMap = it
+            updateUI(musicianHashMap)
+        })
+    }
+
+    private fun popupAction(it: View, favouriteMusician: Musician){
+        val popupMenu = PopupMenu(context, it)
+
+        val userFavouritesReference = (activity as MainActivity?)!!.getUserFavourites()
+        val fireAuthReference = (activity as MainActivity?)!!.getUserFireAuth()
+        val favouriteUser = FavouriteUser()
+
+        popupMenu.setOnMenuItemClickListener { item ->
+            when(item.itemId){
+                R.id.add_to_favourites -> {
+
+                    favouriteUser.email = favouriteMusician.email
+
+                    fireAuthReference.currentUser?.let { it1 ->
+                        userFavouritesReference.child(it1.uid).addListenerForSingleValueEvent(AppValueEventListener{
+                            if (it.hasChild(favouriteMusician.id)){
+                                userFavouritesReference.child(fireAuthReference.currentUser!!.uid).child(favouriteMusician.id).removeValue()
+                            } else {
+                                fireAuthReference.currentUser?.let { it1 ->
+                                    userFavouritesReference.child(it1.uid).child(favouriteMusician.id).setValue(favouriteUser).addOnSuccessListener {
+                                        Toast.makeText(context, "Now this user is in your favourites!", Toast.LENGTH_SHORT).show()
+                                    }.addOnFailureListener {
+                                        Toast.makeText(context, "Error :(", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        })
+                    }
+                    true
+                }
+                else -> {
+                    Toast.makeText(context, "Error :(", Toast.LENGTH_SHORT).show()
+                    false
+                }
+            }
+        }
+        popupMenu.inflate(R.menu.main_screen_button_menu)
+
+        try {
+            val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+            fieldMPopup.isAccessible = true
+            val mPopup = fieldMPopup.get(popupMenu)
+            mPopup.javaClass
+                .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                .invoke(mPopup, true)
+        } catch (e: Exception) {
+            Log.i("Icon load", "Failed to load icon", e)
+        } finally {
+
+            fireAuthReference.currentUser?.let { it1 ->
+                userFavouritesReference.child(it1.uid).addListenerForSingleValueEvent(AppValueEventListener{
+                    if (it.hasChild(favouriteMusician.id)){
+                        popupMenu.menu.findItem(R.id.add_to_favourites).setIcon(R.drawable.ic_heart_red)
+                    }
+                })
+            }
+            popupMenu.show()
+        }
     }
 }

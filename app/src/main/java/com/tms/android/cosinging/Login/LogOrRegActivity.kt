@@ -57,11 +57,6 @@ class LogOrRegActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().add(R.id.login_activity_fragments_frame, loginFragment).commit()
         }
 
-        if (currentFragment == supportFragmentManager.findFragmentById(R.id.activity_login_login_fragment)){
-            registerButton.visibility = VISIBLE
-            registerButton.isClickable = true
-        }
-
         registerButton = findViewById(R.id.activity_register_button)
         registerButton.setOnClickListener {
            navController.navigate(R.id.action_loginFragment_to_registerFragment)

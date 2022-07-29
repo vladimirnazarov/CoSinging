@@ -33,8 +33,8 @@
         app:layout_constraintVertical_bias="0.264" />
 
     <ImageView
-        android:id="@+id/musician_list_favourite"
-        android:layout_width="40dp"
+        android:id="@+id/musician_list_musician_options_menu"
+        android:layout_width="20dp"
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.4"
-        app:srcCompat="@android:drawable/btn_star_big_off" />
+        app:srcCompat="@drawable/ic_menu_custom" />
 
     <TextView
         android:id="@+id/musician_list_profession"
